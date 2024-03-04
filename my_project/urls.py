@@ -20,3 +20,6 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+from django.conf.urls import handler404
+from my_app.views import handler404  
+handler404 = 'yourapp.views.handler404'
