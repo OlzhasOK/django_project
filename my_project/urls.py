@@ -22,4 +22,22 @@ urlpatterns = [
 ]
 from django.conf.urls import handler404
 from my_app.views import handler404  
-handler404 = 'yourapp.views.handler404'
+handler404 = 'my_app.views.handler404'
+
+
+from django.urls import path, include
+from my_app.views import post_view  
+
+
+from django.contrib import admin
+from django.urls import path, include
+from my_app.views import post_view
+from my_app.views import post_detail  
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('post/', post_view, name='post_view'),
+    path('post/<int:post_id>/', post_detail, name='post_detail'), 
+]
+

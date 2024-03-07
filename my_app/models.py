@@ -40,4 +40,11 @@ def create_test_data():
     user = User.objects.create(username="test_user", password="test_password")
     quiz_result = QuizResult.objects.create(user=user, quiz=quiz, score=0)
 
-create_test_data()
+from django.db import models
+
+class Post(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
