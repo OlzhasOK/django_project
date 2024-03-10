@@ -41,3 +41,10 @@ urlpatterns = [
     path('post/<int:post_id>/', post_detail, name='post_detail'), 
 ]
 
+from django.urls import path
+from my_app.views import SnippetList, SnippetDetail
+
+urlpatterns = [
+    path('snippets/', SnippetList.as_view(), name='snippet-list'),
+    path('snippets/<int:pk>/', SnippetDetail.as_view(), name='snippet-detail'),
+]
