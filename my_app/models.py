@@ -58,3 +58,15 @@ class Snippet(models.Model):
 
     def __str__(self):
         return self.title
+
+from rest_framework import generics
+from .models import YourModel
+from .serializers import YourModelSerializer
+
+class YourModelDeleteAPIView(generics.DestroyAPIView):
+    queryset = YourModel.objects.all()
+    serializer_class = YourModelSerializer
+    lookup_field = 'pk'  
+
+    def perform_destroy(self, instance):
+        instance.delete()

@@ -25,10 +25,14 @@ def post_detail(request, post_id):
     return render(request, 'my_app/post_detail.html', {'post': post})
 from rest_framework import status
 from rest_framework.response import Response
+from .models import Snippet
+from rest_framework import generics
+
+
 
 class SnippetList(generics.ListCreateAPIView):
     queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
+    serializer_class = Snippet.Serializer
 
     def delete(self, request, *args, **kwargs):
         snippet = self.get_object()
@@ -37,4 +41,4 @@ class SnippetList(generics.ListCreateAPIView):
 
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
+    serializer_class = Snippet.Serializer

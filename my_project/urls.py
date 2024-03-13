@@ -48,3 +48,10 @@ urlpatterns = [
     path('snippets/', SnippetList.as_view(), name='snippet-list'),
     path('snippets/<int:pk>/', SnippetDetail.as_view(), name='snippet-detail'),
 ]
+
+from django.urls import path
+from my_app.views import YourModelDeleteAPIView
+
+urlpatterns = [
+    path('your-models/<int:pk>/', YourModelDeleteAPIView.as_view(), name='your-model-delete'),
+]
