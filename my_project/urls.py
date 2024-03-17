@@ -55,3 +55,11 @@ from my_app.views import YourModelDeleteAPIView
 urlpatterns = [
     path('your-models/<int:pk>/', YourModelDeleteAPIView.as_view(), name='your-model-delete'),
 ]
+
+from django.urls import path
+from my_app.views import MyModelListCreateAPIView, MyModelRetrieveUpdateDestroyAPIView
+
+urlpatterns = [
+    path('mymodels/', MyModelListCreateAPIView.as_view(), name='mymodel-list-create'),
+    path('mymodels/<int:pk>/', MyModelRetrieveUpdateDestroyAPIView.as_view(), name='mymodel-detail'),
+]

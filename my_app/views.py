@@ -42,3 +42,46 @@ class SnippetList(generics.ListCreateAPIView):
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
     serializer_class = Snippet.Serializer
+
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+
+@login_required
+def my_protected_view(request):
+    return HttpResponse("Этот контент доступен только авторизованным пользователям.")
+
+
+from rest_framework import serializers
+
+class MyDataSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=100)
+    email = serializers.EmailField()
+
+    def validate_username(self, value):
+        if len(value) < 3:
+            raise serializers.ValidationError("Имя пользователя должно содержать не менее 3 символов.")
+        return value
+
+    def validate_email(self, value):
+        if not value.endswith('@example.com'):
+            raise serializers.ValidationError("Email должен быть на домене example.com.")
+        return value
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class MyAPIView(APIView):
+    def post(self, request, format=None):
+        serializer = MyDataSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+from rest_framework import serializers
+from .models import MyModel
+
+class MyModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyModel
+        fields = '__all__'
