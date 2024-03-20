@@ -85,3 +85,27 @@ class MyModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyModel
         fields = '__all__'
+
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
+from .models import YourModel
+
+def your_list_view(request):
+    objects_list = YourModel.objects.all()
+
+    if 'filter_param' in request.GET:
+        filter_value = request.GET.get('filter_param')
+        objects_list = objects_list.filter(field_name=filter_value)
+
+    paginator = Paginator(objects_list, 10)  
+
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
+
+    return render(request, 'your_template.html', {'objects': objects})
